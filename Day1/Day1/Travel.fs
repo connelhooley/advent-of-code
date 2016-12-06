@@ -32,15 +32,15 @@ let private rotate direction step =
 let private move position direction = 
     match direction with
     | North -> 
-        { position with y = position.y+1} 
+        { position with y = position.y+1 }
     | East -> 
-        { position with x = position.x+1}
+        { position with x = position.x+1 }
     | South -> 
-        { position with y = position.y-1}
+        { position with y = position.y-1 }
     | West -> 
-        { position with x = position.x-1} 
+        { position with x = position.x-1 }
 
-let updateState position direction history isSecondVisit = 
+let private updateState position direction history isSecondVisit = 
     if isSecondVisit 
     then 
         ArrivedState {
