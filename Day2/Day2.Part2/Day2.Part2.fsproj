@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>5e0090c7-320b-411e-b9af-a51c19adc73d</ProjectGuid>
+    <ProjectGuid>40011c12-76ec-4886-8d09-a0166fe3b1d3</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Day2</RootNamespace>
-    <AssemblyName>Day2</AssemblyName>
+    <RootNamespace>Day2.Part2</RootNamespace>
+    <AssemblyName>Day2.Part2</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>Day2</Name>
+    <Name>Day2.Part2</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\Day2.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Day2.Part2.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Day2.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Day2.Part2.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -53,6 +53,7 @@
     <Compile Include="Helpers.fs" />
     <Compile Include="Input.fs" />
     <Compile Include="Code.fs" />
+    <Compile Include="Output.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <PropertyGroup>

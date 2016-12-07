@@ -7,9 +7,6 @@ let split (separator:string) (x:string) =
     
 let splitInToChars (x:string) = 
     x.ToCharArray()
-    
-let prepend (y:string) (x:string) =
-    x + y
 
 let toString (x:int) =
     x.ToString()
