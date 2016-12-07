@@ -3,61 +3,63 @@
 open Types
 open Helpers
 
-let createCoordinate y x = {y=y; x=x}
+let buttons =
+    [
+        { coordinate = { y = 5; x = 3; }; value= "1" };
+        { coordinate = { y = 4; x = 2; }; value= "2" };
+        { coordinate = { y = 4; x = 3; }; value= "3" };
+        { coordinate = { y = 4; x = 4; }; value= "4" };
+        { coordinate = { y = 3; x = 1; }; value= "5" };
+        { coordinate = { y = 3; x = 2; }; value= "6" };
+        { coordinate = { y = 3; x = 3; }; value= "7" };
+        { coordinate = { y = 3; x = 4; }; value= "8" };
+        { coordinate = { y = 3; x = 5; }; value= "9" };
+        { coordinate = { y = 2; x = 2; }; value= "A" };
+        { coordinate = { y = 2; x = 3; }; value= "B" };
+        { coordinate = { y = 2; x = 4; }; value= "C" };
+        { coordinate = { y = 1; x = 3; }; value= "D" };
+    ]
 
-let createCoordinateRow columnCount rowNumber =
-    [1..columnCount]
-    |> Seq.map (createCoordinate rowNumber)
+let isValidCoordinate coordinate button =
+    coordinate = button.coordinate
 
-let createCoordinates rowCount columnCount =
-    [1..rowCount]
-    |> Seq.rev
-    |> Seq.map (createCoordinateRow columnCount)
-    |> Seq.collect id
-
-let moveCoordinate coordinates currentCoordinate newCoordinate =
-    let found = Seq.tryFind ((=) newCoordinate) coordinates
+let moveToNextButton currentButton nextCoordinate  =
+    let found = Seq.tryFind (isValidCoordinate nextCoordinate) buttons
     match found with
-    | Some(item) -> item
-    | None -> currentCoordinate
+    | Some(nextButton) -> nextButton
+    | None -> currentButton
 
-let getNextCoordinate coordinates current direction =
+let getNextButton current direction =
     match direction with 
-    | Up -> { current with y = current.y+1 }
-    | Right -> { current with x = current.x+1 }
-    | Down -> { current with y = current.y-1 }
-    | Left -> { current with x = current.x-1 }
-    |> moveCoordinate coordinates current
+    | Up -> { current.coordinate with y = current.coordinate.y+1 }
+    | Right -> { current.coordinate with x = current.coordinate.x+1 }
+    | Down -> { current.coordinate with y = current.coordinate.y-1 }
+    | Left -> { current.coordinate with x = current.coordinate.x-1 }
+    |> moveToNextButton current
 
-let getNumber coordinates cordinate =
-    let found = Seq.tryFindIndex ((=) cordinate) coordinates
-    match found with
-    | Some(item) -> item+1
-    | None -> failwith "Invalid co-ordinate"
+let isButtonWithValue value button =
+    button.value = value
 
-let getCoordinate coordinates number =
-    let found = Seq.tryItem (number-1) coordinates
-    match found with
-    | Some(item) -> item
-    | None -> failwith "Invalid number"
+let getButton value =
+    buttons
+    |> Seq.find (isButtonWithValue value)
 
-let getCodes (coordinates:seq<Coordinate>) (state:State) (instruction:Instruction) =
+let getCode state instruction =
     match instruction with
     | Read -> 
-        { state with result = getNumber coordinates state.current :: state.result }
+        { state with result = state.current.value :: state.result }
     | Direction(direction) ->
-        { state with current = getNextCoordinate coordinates state.current direction }
+        { state with current = getNextButton state.current direction }
 
 let getResult finalState =
     finalState.result
     |> List.rev
 
-let calculate (input: seq<Instruction>) =
-    let coordinates = createCoordinates 3 3
+let calculate input =
     let startingState = {
-        current = getCoordinate coordinates 5
+        current = getButton "5"
         result = []
     }
     input
-    |> Seq.fold (coordinates |> getCodes) startingState
+    |> Seq.fold getCode startingState
     |> getResult

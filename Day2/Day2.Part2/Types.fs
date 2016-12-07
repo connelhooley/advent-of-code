@@ -15,7 +15,12 @@ type Coordinate = {
     y: int;
 }
 
+type Button = {
+    coordinate: Coordinate;
+    value: string;
+}
+
 type State = {
-    current: Coordinate;
-    result : list<int>;
+    current: Button;
+    result : list<string>;
 }

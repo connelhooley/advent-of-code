@@ -3,7 +3,6 @@
 open Types
 open Helpers
 
-let parse (numbers:seq<int>) =  
+let parse numbers =  
     numbers
-    |> Seq.map toString
     |> (String.concat "")
