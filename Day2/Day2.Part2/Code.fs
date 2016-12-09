@@ -3,7 +3,7 @@
 open Types
 open Helpers
 
-let buttons =
+let private buttons =
     [
         { coordinate = { y = 5; x = 3; }; value= "1" };
         { coordinate = { y = 4; x = 2; }; value= "2" };
@@ -20,16 +20,16 @@ let buttons =
         { coordinate = { y = 1; x = 3; }; value= "D" };
     ]
 
-let isValidCoordinate coordinate button =
+let private isValidCoordinate coordinate button =
     coordinate = button.coordinate
 
-let moveToNextButton currentButton nextCoordinate  =
+let private moveToNextButton currentButton nextCoordinate  =
     let found = Seq.tryFind (isValidCoordinate nextCoordinate) buttons
     match found with
     | Some(nextButton) -> nextButton
     | None -> currentButton
 
-let getNextButton current direction =
+let private getNextButton current direction =
     match direction with 
     | Up -> { current.coordinate with y = current.coordinate.y+1 }
     | Right -> { current.coordinate with x = current.coordinate.x+1 }
@@ -37,21 +37,21 @@ let getNextButton current direction =
     | Left -> { current.coordinate with x = current.coordinate.x-1 }
     |> moveToNextButton current
 
-let isButtonWithValue value button =
+let private isButtonWithValue value button =
     button.value = value
 
-let getButton value =
+let private getButton value =
     buttons
     |> Seq.find (isButtonWithValue value)
 
-let getCode state instruction =
+let private getCode state instruction =
     match instruction with
     | Read -> 
         { state with result = state.current.value :: state.result }
     | Direction(direction) ->
         { state with current = getNextButton state.current direction }
 
-let getResult finalState =
+let private getResult finalState =
     finalState.result
     |> List.rev
 

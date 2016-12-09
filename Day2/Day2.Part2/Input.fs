@@ -5,7 +5,7 @@ open System
 open Types
 open Helpers
 
-let mapDirection char = 
+let private mapDirection char = 
     match char with
     | 'U' -> Instruction.Direction(Up)
     | 'R' -> Instruction.Direction(Right)
@@ -13,10 +13,10 @@ let mapDirection char =
     | 'L' -> Instruction.Direction(Left)
     | _ -> failwith "Unexpected char in input"
 
-let appendRead instructions = 
+let private appendRead instructions = 
     instructions @ [Read]
 
-let mapDirections line = 
+let private mapDirections line = 
     line
     |> splitInToChars
     |> List.ofArray
