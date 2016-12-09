@@ -1,7 +1,5 @@
 ﻿module Output
 
-open Types
-
 let private isLargerThan sideA sideB sideC = 
     (sideA + sideB) > sideC
 

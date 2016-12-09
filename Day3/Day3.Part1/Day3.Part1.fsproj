@@ -55,9 +55,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="Copy of input.txt" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Types.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Input.fs" />
     <Compile Include="Output.fs" />

@@ -3,7 +3,6 @@
 open System
 open System.IO
 open Helpers
-open Types
 
 let private parseTriangle (sides:list<int>) =
     (sides.[0], sides.[1], sides.[2])
