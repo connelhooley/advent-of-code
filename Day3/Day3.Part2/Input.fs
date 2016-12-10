@@ -4,26 +4,21 @@ open System
 open System.IO
 open Helpers
 
-let private parseTriangle (sides:list<int>) =
-    (sides.[0], sides.[1], sides.[2])
-
-let private mapRow (row:string) =
-    split " " row
-    |> Seq.map Int32.Parse
+let private mapTriangle points =
+    points
     |> List.ofSeq
-    |> parseTriangle
+    |> (fun point -> (point.[0], point.[1], point.[2]))
 
-let private parseRows (input:string) = 
-    let rec recurser (reader:StringReader) = seq {
-        let line = reader.ReadLine()
-        if not(String.IsNullOrWhiteSpace(line)) then 
-            yield line
-            yield! recurser reader
-        else
-            reader.Dispose()
-    }
-    recurser (new StringReader(input))
+let private orderByColumn columnCount points =
+    points
+    |> Seq.mapi (fun i p -> (i, p))
+    |> Seq.groupBy (fun (i,p) -> i % columnCount)
+    |> Seq.collect (fun (i,p) -> p)
+    |> Seq.map (fun (i, p) -> p)
 
 let parse (input:string) =
-    parseRows input
-    |> Seq.map mapRow
+    split " " input
+    |> Seq.map Int32.Parse
+    |> orderByColumn 3
+    |> Seq.chunkBySize 3
+    |> Seq.map mapTriangle
