@@ -10,7 +10,3 @@ let splitInToChars (x:string) =
 
 let toString x =
     x.ToString()
-    
-let isInt (x:char) =
-    match Int32.TryParse(x.ToString()) with
-    | (isParsed, value) -> isParsed
