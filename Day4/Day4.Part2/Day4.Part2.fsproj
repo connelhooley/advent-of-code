@@ -60,6 +60,7 @@
     <Compile Include="Types.fs" />
     <Compile Include="Input.fs" />
     <Compile Include="Validtor.fs" />
+    <Compile Include="Decrypter.fs" />
     <Compile Include="Output.fs" />
     <Compile Include="Program.fs" />
     <Content Include="input.txt">

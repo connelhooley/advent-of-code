@@ -1,14 +1,16 @@
 ﻿module Output
 
 open Types
+open Helpers
 
-let private decryptChar shift c = 
-    c
+let private filterRooms room = 
+    room.name
+    |> contains "pole"
 
-let private decryptRoom room = 
-    room.encryptedName
-    |> Seq.map (decryptChar room.sectorId)
+let private getSectorId room =
+    room.sectorId
 
-let decryptRooms rooms = 
+let getPoleSectorIds rooms = 
     rooms
-    |> Seq.map decryptRoom
+    |> Seq.filter filterRooms
+    |> Seq.map getSectorId

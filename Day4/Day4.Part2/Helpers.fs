@@ -10,3 +10,9 @@ let splitInToChars (x:string) =
 
 let toString x =
     x.ToString()
+
+let toLower (x:string) =
+    x.ToLower()
+
+let contains value (x:string) =
+    x.Contains(value)

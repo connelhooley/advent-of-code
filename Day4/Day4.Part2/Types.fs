@@ -1,7 +1,12 @@
 ﻿module Types
 
-type Room = {
+type EncryptedRoom = {
     encryptedName: char[];
     sectorId: int;
     checksum: char[];
+}
+
+type DecryptedRoom = {
+    name: string
+    sectorId: int;
 }
