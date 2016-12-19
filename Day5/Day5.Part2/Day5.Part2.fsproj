@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>2f6e6aee-bfd6-4b8a-8e55-e5f93815d93f</ProjectGuid>
+    <ProjectGuid>ccb89fe0-94a8-48f2-850d-b6b0a5e38d7f</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Day5.Part1</RootNamespace>
-    <AssemblyName>Day5.Part1</AssemblyName>
+    <RootNamespace>Day5.Part2</RootNamespace>
+    <AssemblyName>Day5.Part2</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>Day5.Part1</Name>
+    <Name>Day5.Part2</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\Day5.Part1.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Day5.Part2.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Day5.Part1.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Day5.Part2.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
