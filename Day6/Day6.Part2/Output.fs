@@ -7,7 +7,7 @@ let mostCommon (items:seq<string>) =
     items
     |> Seq.countBy id
     |> Seq.sortBy fst
-    |> Seq.maxBy snd
+    |> Seq.minBy snd
     |> fst
 
 let decode input =
