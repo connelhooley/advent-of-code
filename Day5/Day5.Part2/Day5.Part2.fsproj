@@ -49,6 +49,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Helpers.fs" />
     <Compile Include="Password.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

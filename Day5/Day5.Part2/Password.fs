@@ -1,34 +1,49 @@
-﻿//module Password
-//
-//open System.Security.Cryptography
-//
-//let private toLower (x:string) =
-//    x.ToLower()
-//
-//let private hexToString (x:byte) =
-//    x.ToString("X2")
-//
-//let private getResult (currentResult:string) (hash:string) = 
-//    if(hash.StartsWith "00000") then
-//        currentResult + hash.Substring(5, 1)
-//    else 
-//        currentResult
-//
-//let private getHash doorId number = 
-//    let value = sprintf "%s%i" doorId number
-//    let md5 = MD5.Create()
-//    let bytes = md5.ComputeHash(System.Text.Encoding.ASCII.GetBytes(value))
-//    bytes
-//    |> Seq.map hexToString
-//    |> Seq.fold (+) ""
-//
-//let calculate doorId =
-//    let rec loop number result =
-//        let hash = getHash doorId number
-//        let newResult = getResult result hash
-//        if (newResult.Length = 8) then
-//            newResult
-//        else      
-//            if(newResult <> result) then printfn "%s" newResult
-//            loop (number + 1) newResult
-//    loop 0 (Array.create 8 "-") |> toLower
+﻿module Password
+
+open System
+open Helpers
+
+let private printResult result = 
+   result
+   |> mergeStrings
+   |> (printfn "%s")
+
+let private getValue (hash:string) =
+    hash.Substring(6, 1)
+
+let private getPosition (hash:string) =
+    hash.Substring(5, 1)
+    |> parseInt
+
+let private isPositionValid (result:string[]) position =
+    position >= 0 && position <= 7 && result.[position] = "_"
+
+let private populate (result:string[]) (hash:string) = 
+    if (hash.StartsWith "00000") then
+        match hash |> getPosition with
+        | Some(position) when isPositionValid result position -> 
+            let value = hash |> getValue
+            result.[position] <- value
+            printResult result
+        | _ -> ()
+
+let private getHash doorId number = 
+    sprintf "%s%i" doorId number
+    |> md5Hash
+    |> toLower
+
+let private isFinished result = 
+   result
+   |> Seq.forall ((<>) "_")
+
+let calculate doorId =
+    let result = Array.create 8 "_"
+    let populateResult = populate result
+    let getDoorIdHash = getHash doorId
+    let rec loop number =
+        populateResult (getDoorIdHash number)
+        if (isFinished result) then
+            result |> mergeStrings
+        else
+            loop (number + 1)
+    loop 0
