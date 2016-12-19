@@ -3,7 +3,7 @@
 open System
 open Helpers
 
-let mostCommon (items:seq<string>) =
+let mostCommon items =
     items
     |> Seq.countBy id
     |> Seq.sortBy fst
