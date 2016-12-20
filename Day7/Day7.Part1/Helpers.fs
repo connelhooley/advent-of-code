@@ -15,10 +15,15 @@ let private matchesToList (matchCollection:MatchCollection) =
 let private groupsToList (groupCollection:GroupCollection) =
     [for regGroup in groupCollection -> regGroup]
 
-let regex regExp input =
+let regexGroups regExp input =
     let regex = Regex regExp
     regex.Matches input
     |> matchesToList
     |> List.map (fun m -> m.Groups)
     |> List.collect groupsToList
     |> List.map toString
+
+let regexMatch regExp input =
+    let regex = Regex regExp
+    let regMatch = regex.Match input
+    regMatch.Success
