@@ -30,9 +30,9 @@ let private getAbas input =
     |> Seq.map (getAba chars)
     |> Seq.choose id
     
-let private containsAnyOf required input =
-    required
-    |> Seq.exists (contains input)
+let private containsAnyOf haystacks needle =
+    haystacks
+    |> Seq.exists (contains needle)
  
 let private ipSupportsSsl ipAddress =
     let insideBrackets = getInsideBrackets ipAddress
