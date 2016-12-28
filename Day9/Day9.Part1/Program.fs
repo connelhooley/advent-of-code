@@ -1,4 +1,13 @@
-﻿[<EntryPoint>]
+﻿open Compression
+
+open System
+open System.IO
+
+[<EntryPoint>]
 let main argv = 
-    printfn "%A" argv
+    File.ReadAllText "input.txt"
+    |> CompressionModule.parseInput
+    |> CompressionModule.decompress
+    |> CompressionModule.printOutput
+    ignore(Console.ReadLine())
     0 // return an integer exit code
