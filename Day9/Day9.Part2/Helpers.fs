@@ -1,31 +1,18 @@
 ﻿module Helpers
 
 open System
-open System.Text.RegularExpressions
 
 let trim (x:string) =
-    x.Trim ()
+    x.Trim()
 
 let toCharArray (x:string) =
-    x.ToCharArray ()
+    x.ToCharArray()
     
 let toString x =
-    x.ToString ()
+    x.ToString()
     
 let toLower (x:string) =
-    x.ToLower ()
+    x.ToLower()
 
 let split (seperator:string) (x:string) =
-    x.Split ([|seperator|], StringSplitOptions.RemoveEmptyEntries)
-
-let regexGroups regExp input =
-    let groupList (regMatch:Match) =
-        regMatch.Groups
-        |> Seq.cast<Group>
-        |> List.ofSeq
-        |> List.map toString
-    let regex = Regex regExp
-    regex.Matches input
-    |> Seq.cast<Match>
-    |> List.ofSeq
-    |> List.map (groupList)
+    x.Split([|seperator|], StringSplitOptions.RemoveEmptyEntries)
