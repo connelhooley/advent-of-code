@@ -8,7 +8,7 @@ module Robot =
     let create : Robot= 
         List.empty
 
-    let getMicrochips (robot:Robot) : int * int =
+    let getMicrochips (robot:Robot) : min:int * max:int =
         if robot |> List.length < 2 then
             failwith "Robot does not hold 2 microchips yet"
         else

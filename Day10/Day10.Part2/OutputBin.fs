@@ -11,8 +11,5 @@ module OutputBin =
     let sendMicrochip (value:int) (outputBin:OutputBin) : OutputBin =
         Some(value)
     
-    let clearMicrochip (outputBin:OutputBin) : OutputBin =
-        None
-    
     let getMicrochip (outputBin:OutputBin) : int =
         outputBin|> Option.get

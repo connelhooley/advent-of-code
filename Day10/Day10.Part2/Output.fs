@@ -11,4 +11,4 @@ module Output =
         |> List.take 3
         |> List.map OutputBin.getMicrochip
         |> List.fold (*) 1
-        |> printfn "Microchips inside output bins, multiplied together is %i"
+        |> printfn "%i"
