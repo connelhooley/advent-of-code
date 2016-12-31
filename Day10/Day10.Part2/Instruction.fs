@@ -37,7 +37,7 @@ module Instruction =
             | Some robot -> robot |> Robot.isReady
             | None -> false
 
-    let perform ((robots, outputBins): InstructionState) (instruction:Instruction) : InstructionState =
+    let perform ((robots, outputBins) as state:InstructionState) (instruction:Instruction) : InstructionState =
         let modifyRobots = Destination.modify Robot.create
         let modifyOutputbins = Destination.modify OutputBin.create
         match instruction.task with
@@ -70,7 +70,7 @@ module Instruction =
                                 outputBins |> modifyOutputbins destNumber (OutputBin.sendMicrochip microchip)
                             )
 
-                    (robots, outputBins)
+                    state
                     |> performTransport task.lowDestType task.lowDestNumber low
                     |> performTransport task.highDestType task.highDestNumber high
                     |> clear instruction.robotNumber
