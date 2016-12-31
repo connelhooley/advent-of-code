@@ -60,6 +60,7 @@
     </Content>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
+    <Compile Include="Regex.fs" />
     <Compile Include="Destination.fs" />
     <Compile Include="Robot.fs" />
     <Compile Include="OutputBin.fs" />

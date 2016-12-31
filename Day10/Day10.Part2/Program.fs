@@ -5,7 +5,7 @@ open Output
 
 [<EntryPoint>]
 let main argv =
-    File.ReadAllText "input.txt"
+    File.ReadAllLines "input.txt"
     |> Instructions.parse
     |> Instructions.perform
     |> Output.print

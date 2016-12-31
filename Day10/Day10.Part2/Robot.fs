@@ -5,7 +5,7 @@ type Robot = int list
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix )>]
 module Robot =
     
-    let create : Robot= 
+    let create : Robot = 
         List.empty
 
     let getMicrochips (robot:Robot) : min:int * max:int =
