@@ -7,7 +7,5 @@ let parse (input:string) =
     }
     |> Seq.pairwise
     |> Seq.filter (fun (a, b) -> a = b)
-    |> Seq.map fst
-    |> Seq.map (sprintf "%c")
-    |> Seq.map int
+    |> Seq.map (fst >> (sprintf "%c") >> int)
     |> Seq.sum

@@ -8,11 +8,9 @@ let parse (input:string) =
     [0 .. input.Length-1]
     |> Seq.map (fun i -> 
         (
-            input.[circular |> Seq.item i], 
+            input.[i], 
             input.[circular |> Seq.item (i + input.Length/2)])
         )
     |> Seq.filter (fun (a, b) -> a = b)
-    |> Seq.map fst
-    |> Seq.map (sprintf "%c")
-    |> Seq.map int
+    |> Seq.map (fst >> (sprintf "%c") >> int)
     |> Seq.sum
