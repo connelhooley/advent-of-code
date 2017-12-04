@@ -1,28 +1,28 @@
 ﻿module Spiral
 
-type Direction =
+type private Direction =
 | Right
 | Up
 | Left
 | Down
 
-type Instruction =
+type private Instruction =
 | Turn
 | Move
 
-type Coordinates = {
+type private Coordinates = {
     x: int
     y: int
 }
 
-type State = {
+type private State = {
     Value: int
     Values: Map<Coordinates, int>
     Coordinates: Coordinates
     Direction: Direction
 }
 
-let getCoordinates input = 
+let getFirstValueGreaterThan input = 
     let rec instructions = 
         let rec loop size = seq {
             yield! Seq.init size (fun _ -> Move)
@@ -77,14 +77,18 @@ let getCoordinates input =
                 {state with Direction = Left}
             | Left -> 
                 {state with Direction = Down}
+
     let initialValue = 1;
     let initalCoordinate = {x = 0; y = 0 }
+    let initalValues = Map.empty |> Map.add initalCoordinate initialValue
+    let initalDirection = Right
     let initalState = {
         Value = initialValue
-        Values = Map.empty |> Map.add initalCoordinate initialValue
+        Values = initalValues
         Coordinates = initalCoordinate
-        Direction = Right
+        Direction = initalDirection
     }
+
     (
         instructions
         |> Seq.scan performInstruction initalState
