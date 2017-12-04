@@ -39,44 +39,47 @@ let getFirstValueGreaterThan input =
             let coordinates = 
                 match state.Direction with
                 | Right ->
-                    {state.Coordinates with x =  state.Coordinates.x+1}
+                    { state.Coordinates with x =  state.Coordinates.x+1 }
                 | Up ->
-                    {state.Coordinates with y =  state.Coordinates.y+1}
+                    { state.Coordinates with y =  state.Coordinates.y+1 }
                 | Left ->
-                    {state.Coordinates with x =  state.Coordinates.x-1}
+                    { state.Coordinates with x =  state.Coordinates.x-1 }
                 | Down ->
-                    {state.Coordinates with y =  state.Coordinates.y-1}
+                    { state.Coordinates with y =  state.Coordinates.y-1 }
 
             let neighbourCoordinates = [|
-                {coordinates with x =  coordinates.x+1}
-                {coordinates with y =  coordinates.y+1}
-                {coordinates with x =  coordinates.x-1}
-                {coordinates with y =  coordinates.y-1}
-                {coordinates with x =  coordinates.x+1; y =  coordinates.y+1}
-                {coordinates with x =  coordinates.x+1; y =  coordinates.y-1}
-                {coordinates with x =  coordinates.x-1; y =  coordinates.y+1}
-                {coordinates with x =  coordinates.x-1; y =  coordinates.y-1}
+                { coordinates with x =  coordinates.x+1 }
+                { coordinates with y =  coordinates.y+1 }
+                { coordinates with x =  coordinates.x-1 }
+                { coordinates with y =  coordinates.y-1 }
+                { coordinates with x =  coordinates.x+1; y =  coordinates.y+1 }
+                { coordinates with x =  coordinates.x+1; y =  coordinates.y-1 }
+                { coordinates with x =  coordinates.x-1; y =  coordinates.y+1 }
+                { coordinates with x =  coordinates.x-1; y =  coordinates.y-1 }
             |]
+
             let value = 
                 state.Values
                 |> Map.filter (fun key _ -> neighbourCoordinates |> Array.contains key)
                 |> Map.toSeq
                 |> Seq.map snd
                 |> Seq.sum
+
             let values = 
                 state.Values 
                 |> Map.add coordinates value
-            {state with Value =  value; Values = values; Coordinates = coordinates}
+
+            { state with Value =  value; Values = values; Coordinates = coordinates}
         | Turn -> 
             match state.Direction with
             | Down -> 
-                {state with Direction = Right}
+                { state with Direction = Right }
             | Right -> 
-                {state with Direction = Up}
+                { state with Direction = Up }
             | Up -> 
-                {state with Direction = Left}
+                { state with Direction = Left }
             | Left -> 
-                {state with Direction = Down}
+                { state with Direction = Down }
 
     let initialValue = 1;
     let initalCoordinate = {x = 0; y = 0 }
@@ -88,10 +91,9 @@ let getFirstValueGreaterThan input =
         Coordinates = initalCoordinate
         Direction = initalDirection
     }
-
-    (
+    let result = 
         instructions
         |> Seq.scan performInstruction initalState
         |> Seq.find (fun s -> s.Value > input)
-    ).Value
+    result.Value
     
