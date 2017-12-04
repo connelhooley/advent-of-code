@@ -55,7 +55,6 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="File.fs" />
     <Compile Include="Passphrase.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
