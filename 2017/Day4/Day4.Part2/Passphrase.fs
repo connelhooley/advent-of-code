@@ -1,10 +1,7 @@
 ﻿module Passphrase
 
 let isValid (passphrase: string) = 
-    
-    let isMatch ((word1:string), (word2:string)) =
-        let sort (s:string) = Array.sort (s.ToCharArray())
-        sort word1 = sort word2
+    let sortWord (s:string) = Array.sort (s.ToCharArray())
         
     let words = passphrase.Split()
     let distinctWords = Array.distinct words
@@ -12,6 +9,6 @@ let isValid (passphrase: string) =
         false
     else
         Array.allPairs words words
-        |> Array.filter (fun (a, b) -> a <> b)
-        |> Array.exists isMatch
+        |> Array.filter (fun (word1, word2) -> word1 <> word2)
+        |> Array.exists (fun (word1, word2) -> sortWord word1 = sortWord word2)
         |> not
