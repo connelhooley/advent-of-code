@@ -3,41 +3,41 @@
 open System.IO
 open System
 
-type private State = {
-    History: int[][]
-
-}
-
 let read fileName =
     File.ReadAllText(fileName).Split()
     |> Array.filter (not << String.IsNullOrWhiteSpace)
     |> Array.map int
+    |> List.ofArray
 
 let countReallocates memoryBanks = 
-    let rec loop count previous =
-        let indexToReallocate =
-            memoryBanks
-            |> Array.mapi (fun i x -> (i, x))
-            |> Array.sortByDescending snd
-            |> Array.item 0
-            |> fst
-        let valueToReallocate = memoryBanks.[indexToReallocate]
-    
+    let reallocate index value banks =
         let rec indexSeq = seq {
-            yield! [indexToReallocate+1 .. memoryBanks.Length-1]
-            yield! [0 .. indexToReallocate]
+            yield! [index+1 .. (List.length banks)-1]
+            yield! [0 .. index]
             yield! indexSeq
         }
 
-        memoryBanks.[indexToReallocate] <- 0
-        for i in Seq.take valueToReallocate indexSeq do 
-            memoryBanks.[i] <- memoryBanks.[i]+1
-                
-        let updatedMemoryBanks = List.ofArray memoryBanks
+        let memoryBankArray = Array.ofList banks
 
-        if List.contains updatedMemoryBanks previous then
+        memoryBankArray.[index] <- 0
+        for i in Seq.take value indexSeq do 
+            memoryBankArray.[i] <- memoryBankArray.[i]+1
+        
+        List.ofArray memoryBankArray
+        
+    let rec loop count previousMemoryBanks currentMemoryBanks =
+        let indexToReallocate =
+            currentMemoryBanks
+            |> List.mapi (fun i x -> (i, x))
+            |> List.sortByDescending snd
+            |> List.item 0
+            |> fst
+        let valueToReallocate = currentMemoryBanks.[indexToReallocate]
+        let updatedMemoryBanks = reallocate indexToReallocate valueToReallocate currentMemoryBanks
+
+        if previousMemoryBanks |> List.contains updatedMemoryBanks then
             count
         else
-            loop (count+1) (updatedMemoryBanks :: previous)
+            loop (count+1) (updatedMemoryBanks :: previousMemoryBanks) updatedMemoryBanks
     
-    loop 1 List.empty
+    loop 1 List.empty memoryBanks
