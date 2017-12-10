@@ -32,8 +32,7 @@ let read fileName =
 let findRoot programs = 
     let hasNoParent program = 
         programs
-        |> List.map (fun p -> p.Children)
-        |> List.exists (fun children -> children |> List.contains program.Name)
+        |> List.exists (fun p -> p.Children |> List.contains program.Name)
         |> not
     let root = 
         programs 
