@@ -30,7 +30,7 @@ let countReallocateLoopSize memoryBanks =
             |> List.rev
             |> List.tryFindIndex ((=) updatedMemoryBanks)
         
-    let rec loop count (previousMemoryBanks: int list list) (currentMemoryBanks: int list) =
+    let rec loop count previousMemoryBanks currentMemoryBanks =
         let indexToReallocate, valueToReallocate =
             currentMemoryBanks
             |> List.indexed
