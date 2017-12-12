@@ -28,8 +28,7 @@ let read fileName =
     |> File.ReadAllLines
     |> Array.map matchLine
     |> List.ofArray
-
-
+    
 let findDesiredChildWeight programs =
 
     let findRootName programs = 
