@@ -5,7 +5,7 @@ open System
 [<EntryPoint>]
 let main _ =
     Tower.read "input.txt"
-    |> Tower.findRoot
-    |> Console.WriteLine
+    |> Tower.findDesiredChildWeight
+    |> printf "%A"
     ignore(Console.ReadLine())
     0 // return an integer exit code
