@@ -24,8 +24,6 @@ let countItemsInGarbage stream =
             match item with
             | '!' -> { state with IgnoreCurrent = true }
             | '<' -> { state with IsInsideGarbage = true }
-            | '{' -> state
-            | '}' -> state
             | _ -> state
         
     let initalState = {
