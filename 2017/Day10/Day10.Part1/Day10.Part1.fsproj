@@ -14,7 +14,6 @@
     <Content Include="input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="input2.txt" />
   </ItemGroup>
 
 </Project>
