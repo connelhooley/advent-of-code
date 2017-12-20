@@ -1,5 +1,6 @@
 ﻿module KnotHash
 
+open System
 open System.IO
 
 type State = {
@@ -9,9 +10,17 @@ type State = {
 }
 
 let parse fileName = 
-    File.ReadAllText(fileName).Split(',')
-    |> Seq.ofArray
-    |> Seq.map int
+    let tryParse c = 
+        match Int32.TryParse c with
+        | (true, result) -> result
+        | (false, _) -> 0
+
+    let raw = File.ReadAllText(fileName).Split()
+    let ascis = raw |> Seq.map (char >> int)
+    let values = raw |> Seq.map tryParse
+    
+    Seq.zip ascis values
+    |> Seq.map (fun (asci, value) -> asci + value)
 
 let perform numbers lengths =
     let rec indexes = seq {
