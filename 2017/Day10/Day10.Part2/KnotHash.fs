@@ -10,18 +10,9 @@ type State = {
 }
 
 let parse fileName = 
-    let tryParse c = 
-        match Int32.TryParse c with
-        | (true, result) -> result
-        | (false, _) -> 0
-
-    let raw = File.ReadAllText(fileName).Split()
-    let ascis = raw |> Seq.map (char >> int)
-    let values = raw |> Seq.map tryParse
-    
-    Seq.zip ascis values
-    |> Seq.map (fun (asci, value) -> asci + value)
-
+    File.ReadAllText(fileName).ToCharArray()
+    |> Seq.map int
+        
 let perform numbers lengths =
     let rec indexes = seq {
         yield! numbers
