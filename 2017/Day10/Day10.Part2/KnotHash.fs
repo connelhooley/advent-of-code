@@ -1,62 +1,52 @@
 ﻿module KnotHash
 
 open System
-open System.IO
 
-type State = {
-    Numbers: int seq
-    Position: int
-    SkipSize: int
-}
-
-let parse fileName = 
-    File.ReadAllText(fileName).ToCharArray()
-    |> Seq.map int
+let parseRound (fileContents:string) = 
+    let lengthsInFile = fileContents.Trim().ToCharArray() |> Seq.map int
+    let standardLengthSuffixes = [17; 31; 73; 47; 23]
+    Seq.append lengthsInFile standardLengthSuffixes
         
-let perform numbers lengths =
-    let rec indexes = seq {
-        yield! numbers
-        yield! indexes
+let sparseHash round =
+
+    let numbersSize = 255
+
+    let rounds = seq {
+        for _ in 1 .. 64 do 
+            yield! round
     }
 
-    let performLength state length =     
-        let numberArray = 
-            state.Numbers
-            |> Array.ofSeq
-
+    let performLength (currentNumbers, currentPosition, currentSkipSize) length =     
+        
+        let numbers = Array.ofList currentNumbers
+        
         let indexesToChange = 
-            indexes
-            |> Seq.skip state.Position
-            |> Seq.take length
-            |> Array.ofSeq
+            [currentPosition .. currentPosition+length]
+            |> Seq.map (fun p -> p % numbersSize)
             
         let numbersToChange = 
             indexesToChange
-            |> Seq.map (Array.get numberArray)
+            |> Seq.map (Array.get numbers)
             |> Seq.rev
-            |> Array.ofSeq
+        
+        for (index, number) in Seq.zip indexesToChange numbersToChange  do
+            numbers.[index] <- number
+        
+        let nextPosition = currentPosition+length+currentSkipSize
+        let nextSkipSize = currentSkipSize+1
+        let nextNumbers = List.ofArray numbers
 
-        Seq.zip indexesToChange numbersToChange
-        |> Seq.iter(fun (index, number) -> numberArray.[index] <- number)
-        
-        {
-            Numbers = numberArray |> Seq.ofArray
-            Position = state.Position+length+state.SkipSize
-            SkipSize = state.SkipSize+1
-        }
-        
-    let inital = {
-        Numbers = numbers
-        Position = 0
-        SkipSize = 0
-    }
-    let result =
-        lengths
-        |> Seq.fold performLength inital
+        (nextNumbers, nextPosition, nextSkipSize)
+            
+    let result, _, _  =
+        rounds
+        |> Seq.fold performLength ([0 .. numbersSize], 0, 0)
+
+    result
     
-    result.Numbers
-
-let multiplyFirstTwoNumbers numbers =
-    let first = Seq.item 0 numbers
-    let second = Seq.item 1 numbers
-    first * second
+let denseHash numbers =
+    numbers
+    |> List.chunkBySize 16
+    |> List.map (List.reduce (^^^))
+    |> List.map (sprintf "%02X")
+    |> List.reduce (+)

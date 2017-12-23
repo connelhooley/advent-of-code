@@ -1,15 +1,16 @@
 ﻿// Learn more about F# at http://fsharp.org
 
 open System
+open System.IO
 
 [<EntryPoint>]
 let main _ =
-    "input.txt"
-    //"input2.txt"
-    |> KnotHash.parse
-    //|> KnotHash.perform [0 .. 4]
-    |> KnotHash.perform [0 .. 255]
-    |> KnotHash.multiplyFirstTwoNumbers
-    |> printf "%i"
+    //"input.txt"
+    //|> File.ReadAllText
+    ""
+    |> KnotHash.parseRound
+    |> KnotHash.sparseHash
+    |> KnotHash.denseHash
+    |> printf "%A"
     ignore(Console.ReadLine())
     0 // return an integer exit code
