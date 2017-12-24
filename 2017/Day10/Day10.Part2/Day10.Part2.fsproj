@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Content Include="input.txt" />
-    <Content Include="input2.txt" />
   </ItemGroup>
 
 </Project>

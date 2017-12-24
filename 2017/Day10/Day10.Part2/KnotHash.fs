@@ -1,13 +1,11 @@
 ﻿module KnotHash
 
-open System.Text
-
-let parseRound (fileContents:string) = 
-    let lengthsInFile = Encoding.ASCII.GetBytes(fileContents) |> Array.map int
+let parseRound (fileContents: string) = 
+    let lengthsInFile = fileContents.ToCharArray() |> Seq.map int
     let standardLengthSuffixes = [17; 31; 73; 47; 23]
     Seq.append lengthsInFile standardLengthSuffixes
         
-let sparseHash round =
+let sparseHash (round: int seq): int list =
 
     let numbersSize = 256
     
@@ -25,8 +23,8 @@ let sparseHash round =
         
         let numbersToChange = 
             indexesToChange
-            |> List.rev
             |> List.map (Array.get numbers)
+            |> List.rev
         
         for (index, number) in Seq.zip indexesToChange numbersToChange  do
             numbers.[index] <- number
@@ -40,7 +38,7 @@ let sparseHash round =
     match Seq.fold performLength ([0 .. numbersSize-1], 0, 0) rounds with
     | result, _, _ -> result
     
-let denseHash numbers =
+let denseHash (numbers: int list): string =
     numbers
     |> List.chunkBySize 16
     |> List.map (List.reduce (^^^) >> sprintf "%02X")
