@@ -1,33 +1,32 @@
 ﻿module KnotHash
 
-open System
+open System.Text
 
 let parseRound (fileContents:string) = 
-    let lengthsInFile = fileContents.Trim().ToCharArray() |> Seq.map int
+    let lengthsInFile = Encoding.ASCII.GetBytes(fileContents) |> Array.map int
     let standardLengthSuffixes = [17; 31; 73; 47; 23]
     Seq.append lengthsInFile standardLengthSuffixes
         
 let sparseHash round =
 
-    let numbersSize = 255
-
-    let rounds = seq {
-        for _ in 1 .. 64 do 
-            yield! round
-    }
-
-    let performLength (currentNumbers, currentPosition, currentSkipSize) length =     
-        
-        let numbers = Array.ofList currentNumbers
-        
-        let indexesToChange = 
-            [currentPosition .. currentPosition+length]
-            |> Seq.map (fun p -> p % numbersSize)
+    let numbersSize = 256
+    
+    let rounds = 
+        Seq.replicate 64 round
+        |> Seq.collect id
+    
+    let performLength (currentNumbers, currentPosition, currentSkipSize) length =
             
+        let numbers = Array.ofList currentNumbers
+       
+        let indexesToChange = 
+            [currentPosition .. currentPosition+length-1]
+            |> List.map (fun p -> p % (numbersSize))
+        
         let numbersToChange = 
             indexesToChange
-            |> Seq.map (Array.get numbers)
-            |> Seq.rev
+            |> List.rev
+            |> List.map (Array.get numbers)
         
         for (index, number) in Seq.zip indexesToChange numbersToChange  do
             numbers.[index] <- number
@@ -37,16 +36,13 @@ let sparseHash round =
         let nextNumbers = List.ofArray numbers
 
         (nextNumbers, nextPosition, nextSkipSize)
-            
-    let result, _, _  =
-        rounds
-        |> Seq.fold performLength ([0 .. numbersSize], 0, 0)
-
-    result
+        
+    match Seq.fold performLength ([0 .. numbersSize-1], 0, 0) rounds with
+    | result, _, _ -> result
     
 let denseHash numbers =
     numbers
     |> List.chunkBySize 16
-    |> List.map (List.reduce (^^^))
-    |> List.map (sprintf "%02X")
+    |> List.map (List.reduce (^^^) >> sprintf "%02X")
     |> List.reduce (+)
+    |> (fun s -> s.ToLower())

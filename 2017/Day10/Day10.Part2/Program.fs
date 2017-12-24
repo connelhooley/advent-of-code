@@ -5,12 +5,11 @@ open System.IO
 
 [<EntryPoint>]
 let main _ =
-    //"input.txt"
-    //|> File.ReadAllText
-    ""
+    "input.txt"
+    |> File.ReadAllText
     |> KnotHash.parseRound
     |> KnotHash.sparseHash
     |> KnotHash.denseHash
-    |> printf "%A"
+    |> printf "%s"
     ignore(Console.ReadLine())
     0 // return an integer exit code
