@@ -23,7 +23,7 @@ let parseInput (fileContents: string): Direction list =
     |> Seq.map (String.trim >> mapDirection)
     |> List.ofSeq
 
-let getStepsCount (directions: Direction list) =
+let getStepsCount (directions: Direction list): double =
     let move (x,y) direction =
         match direction with
         | North -> (x, y+1.0)
