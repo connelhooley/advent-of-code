@@ -23,14 +23,19 @@ let parseInput (fileContents: string): Direction list =
     |> Seq.map (String.trim >> mapDirection)
     |> List.ofSeq
 
-let getStepsCount (directions: Direction list) =
+let getMaxStepsCount (directions: Direction list): double =
     let move (x,y) direction =
-        match direction with
-        | North -> (x, y+1.0)
-        | South -> (x, y-1.0)
-        | NorthEast -> (x-0.5, y+0.5)
-        | NorthWest -> (x+0.5, y+0.5)
-        | SouthEast -> (x-0.5, y-0.5)
-        | SouthWest -> (x+0.5, y-0.5)
-    let x,y = Seq.fold move (0.0, 0.0) directions
-    (abs x) + (abs y)
+        let (nextX, nextY) = 
+            match direction with
+            | North -> (x, y+1.0)
+            | South -> (x, y-1.0)
+            | NorthEast -> (x-0.5, y+0.5)
+            | NorthWest -> (x+0.5, y+0.5)
+            | SouthEast -> (x-0.5, y-0.5)
+            | SouthWest -> (x+0.5, y-0.5)
+        let distance = (abs nextX) + (abs nextY)
+        (distance, (nextX, nextY))
+    directions
+    |> Seq.mapFold move (0.0, 0.0)
+    |> fst
+    |> Seq.max

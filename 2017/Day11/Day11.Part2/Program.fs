@@ -5,14 +5,10 @@ open System.IO
 
 [<EntryPoint>]
 let main _ =
-    //"ne,ne,ne" //3
-    //"ne,ne,sw,sw" //0
-    //"ne,ne,s,s" //2
-    //"se,sw,se,sw,sw" //3
     "input.txt"
     |> File.ReadAllText
     |> HexGrid.parseInput
-    |> HexGrid.getStepsCount
+    |> HexGrid.getMaxStepsCount
     |> printfn "%A" 
     ignore(Console.ReadLine())
     0 // return an integer exit code
